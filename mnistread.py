@@ -3,12 +3,13 @@ from PIL import Image, ImageOps
 
 # b=str of 4 bytes
 def bigend4(b):
+  if type(b)==str: b=[ord(x) for x in b]# Make it work in Python 2
   t=0
-  for x in b: t=(t<<8)+ord(x)
+  for x in b: t=(t<<8)+x
   return t
 
 def readmnistimages(fn):
-  with open(fn,'r') as fp:
+  with open(fn,'rb') as fp:
     magic=bigend4(fp.read(4));assert magic==2051
     n=bigend4(fp.read(4))
     rows=bigend4(fp.read(4))
@@ -16,7 +17,7 @@ def readmnistimages(fn):
     return np.reshape(np.fromstring(fp.read(), dtype=np.uint8), (n, rows, cols))
 
 def readmnistlabels(fn):
-  with open(fn,'r') as fp:
+  with open(fn,'rb') as fp:
     magic=bigend4(fp.read(4));assert magic==2049
     n=bigend4(fp.read(4))
     return np.fromstring(fp.read(), dtype=np.uint8)
