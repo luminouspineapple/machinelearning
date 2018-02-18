@@ -21,7 +21,7 @@ edgesnode=tensor.Conv2d(imagenode,kernelnode)
 
 t0=clock()
 edges=edgesnode.evaluate(results={imagenode:training_images})
-print("Time taken to apply convolutions to",len(edges),"images over",kernel.shape[3],"channels =",clock()-t0,"seconds")
+print("Time taken to apply",kernel.shape[3],"convolution(s) to",len(edges),"image(s) =",clock()-t0,"seconds")
 
 disp(floattouint8(edges[2,:,:,0]))
 disp(floattouint8(edges[2,:,:,1]))
